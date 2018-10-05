@@ -40,7 +40,7 @@ module PasteBin
 			end
 			
 			threads << Thread.new do
-			
+
 				paste_expire_date = Hash[ dom.css('#myform select[name="paste_expire_date"] > option').map { |e|
 					tmp = e.children.to_s.upcase
 					tmp = tmp.gsub(' ', '_').gsub(/[^\w]/, '')
@@ -87,17 +87,9 @@ module PasteBin
 
 		end
 
-		def format_opt()
-			__init(); return @@format_opt
-		end
-
-		def expire_opt()
-			__init(); return @@expire_opt
-		end
-
-		def visibilty_opt()
-			__init(); return @@visibilty_opt
-		end
+		def format_opt()    __init(); return @@format_opt; end
+		def expire_opt()    __init(); return @@expire_opt; end
+		def visibilty_opt() __init(); return @@visibilty_opt; end
 
 		private :__init, :__parse_opt_from_dom;
 	end
@@ -153,7 +145,7 @@ module PasteBin
 		####### SEND POST
 
 		# enable ssl if uri.scheme == https	
-		Net::HTTP.start(uri.host, uri.port, { :use_ssl => uri.scheme == 'https' } ) do |http|
+		Net::HTTP.start(uri.host, uri.port, { :use_ssl => uri.scheme == 'https' } ) { |http|
 
 			case (res = http.request(req))
 				# when Net::HTTPSuccess
@@ -165,7 +157,7 @@ module PasteBin
 				else
 					raise RuntimeError.new("#{res} #{res.value}")
 			end
-		end
+		}
 
 	end
 
