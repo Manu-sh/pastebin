@@ -2,10 +2,10 @@
 
 require 'getoptlong'
 
-require_relative 'HttpUtils.rb'
-require_relative 'PasteBin.rb'
+require_relative '../HttpUtils.rb'
+require_relative '../PasteBin.rb'
 
-PROG_NAME=File.basename($0)
+PROG_NAME=File.basename($0, '.rb')
 PasteBin::init()
 
 def fmt_opt(a, width, rjust)
@@ -46,7 +46,8 @@ USAGE = <<EOF
 
 #{fmt_opt(PasteBin.visibility_opt, 78, 20)}
 	examples:
-		#{PROG_NAME} -f c_plus_plus ~/file
+		#{PROG_NAME} ~/file.cpp
+		#{PROG_NAME} -f c++ ~/file
 		#{PROG_NAME} -e 1_day -v unlisted -f bash ~/.bashrc
 
 	see also: #{PasteBin::PASTE_BIN_URL}/faq

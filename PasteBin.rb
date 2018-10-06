@@ -7,7 +7,7 @@ require_relative 'HttpUtils.rb'
 module PasteBin
 
 	# cached pastebin opt
-	PASTE_BIN_OPT = 'pastebin_opt.rb'
+	PASTE_BIN_OPT = '/tmp/pastebin_opt.rb'
 	PASTE_BIN_URL = 'https://pastebin.com'
 
 	# define some static methods into a singleton class (required to mark __parse_opt_from_dom as private)
@@ -32,7 +32,7 @@ module PasteBin
 					tmp.include?('(PRO MEMBERS ONLY)') || tmp.include?('------')
 				}.map { |e|
 					tmp = e.children.to_s.upcase
-					tmp = tmp.gsub(' ', '_').gsub('+', '_PLUS').gsub('#', '_SHARP').gsub(/[^\w]/, '')
+					tmp = tmp.gsub(' ', '_').gsub('#', '_SHARP').gsub(/[^\w\+]/, '')
 					[tmp, e[:value].to_s]
 				}];
 	
@@ -87,7 +87,7 @@ module PasteBin
 		end
 
 		def format_opt()     init(); return @@format_opt; end
-		def expiration_opt()     init(); return @@expire_opt; end
+		def expiration_opt() init(); return @@expire_opt; end
 		def visibility_opt() init(); return @@visibility_opt; end
 
 		private :__parse_opt_from_dom;
@@ -168,7 +168,7 @@ module PasteBin
 
 			case (basename)
 
-				when /.*\.(cpp|cc|cxx|hpp|hxx)/i; format = 'C_PLUS_PLUS'
+				when /.*\.(cpp|cc|cxx|hpp|hxx)/i; format = 'C++'
 				when /.*\.(css|less)/i;           format = 'CSS'
 				when /.*\.(c|h)/i;                format = 'C'
 				when /.*\.py/i;                   format = 'PYTHON'
