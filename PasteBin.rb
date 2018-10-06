@@ -93,7 +93,7 @@ module PasteBin
 		private :__parse_opt_from_dom;
 	end
 
-	def self.send(title, content, format_opt = 'NONE', expire_opt = '10_MINUTES', visibility_opt = 'UNLISTED')
+	def self.send(title, content, format_opt = 'NONE', expire_opt = '1_YEAR', visibility_opt = 'PUBLIC')
 
 		init()
 

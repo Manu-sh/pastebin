@@ -23,7 +23,7 @@ opts = GetoptLong.new(
 # default beavior 
 cmd_opt = {
 	format: '',
-	expiration: '10_MINUTES',
+	expiration: '1_YEAR',
 	visibility: 'PUBLIC'
 }
 
@@ -38,7 +38,7 @@ USAGE = <<EOF
 
 #{fmt_opt(PasteBin.format_opt, 78, 20)}
 	-e, --expiration
-		paste expiration, default is 10 minutes
+		paste expiration, default is 1 year
 
 #{fmt_opt(PasteBin.expiration_opt, 78, 20)}
 	-v, --visibility

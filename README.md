@@ -1,6 +1,10 @@
 # pastebin
 ###### send text files to pastebin
 
+<a href="https://asciinema.org/a/BHRFvPUWv7rJKiysAZmMlrE2v?autoplay=1&t=00:10">
+  <img src="https://asciinema.org/a/BHRFvPUWv7rJKiysAZmMlrE2v.png" width="320px" height="200px" alt="" />
+</a>
+
 ### Installation
 ```bash
 git clone https://github.com/Manu-sh/pastebin
