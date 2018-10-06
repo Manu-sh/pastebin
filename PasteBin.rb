@@ -10,7 +10,7 @@ module PasteBin
 	PASTE_BIN_OPT = 'pastebin_opt.rb'
 	PASTE_BIN_URL = 'https://pastebin.com'
 
-	# define some static methods into a singleton class (required to mark __init & __parse_opt_from_dom as private)
+	# define some static methods into a singleton class (required to mark __parse_opt_from_dom as private)
 	class << self
 
 		@@loaded        = false;
@@ -66,11 +66,11 @@ module PasteBin
 				f.print "$paste_private=", paste_private, "\n\n"
 			}
 
-			puts "#{PASTE_BIN_OPT} was successfully updated"
+			puts "#{PASTE_BIN_OPT} was successfully generated"
 	
 		end
 
-		def __init()
+		def init()
 
 			return if @@loaded
 
@@ -79,23 +79,23 @@ module PasteBin
 
 			# load the opt file into memory ($paste_format, $paste_expire_date, $paste_private)
 			load PASTE_BIN_OPT unless @@loaded
-			@@format_opt    = $paste_format.each_key.map {|k| k }
-			@@expire_opt    = $paste_expire_date.each_key.map {|k| k }
-			@@visibility_opt = $paste_private.each_key.map {|k| k }
+			@@format_opt    = $paste_format.each_key.sort.map      {|k| k }
+			@@expire_opt    = $paste_expire_date.each_key.sort.map {|k| k }
+			@@visibility_opt = $paste_private.each_key.sort.map    {|k| k }
 			@@loaded        = true
 
 		end
 
-		def format_opt()    __init(); return @@format_opt; end
-		def expire_opt()    __init(); return @@expire_opt; end
-		def visibility_opt() __init(); return @@visibility_opt; end
+		def format_opt()     init(); return @@format_opt; end
+		def expiration_opt()     init(); return @@expire_opt; end
+		def visibility_opt() init(); return @@visibility_opt; end
 
-		private :__init, :__parse_opt_from_dom;
+		private :__parse_opt_from_dom;
 	end
 
 	def self.send(title, content, format_opt = 'NONE', expire_opt = '10_MINUTES', visibility_opt = 'UNLISTED')
 
-		__init()
+		init()
 
 		response  = HttpUtils::get_response(PASTE_BIN_URL)
 
@@ -160,34 +160,36 @@ module PasteBin
 
 	end
 
-	def self.send_file(fpath, expire_opt = '10_MINUTES', visibility_opt = 'UNLISTED')
+	def self.send_file(fpath, format = '', expire = '10_MINUTES', visibility = 'UNLISTED')
 
 		File.open(fpath) {|f|
 
-			format_opt = nil
+			basename = File.basename(f.path)
 
-			case (basename = File.basename(f.path))
-				when /.*\.(cpp|cc|cxx|hpp|hxx)/i; format_opt = 'C_PLUS_PLUS'
-				when /.*\.(css|less)/i;           format_opt = 'CSS'
-				when /.*\.(c|h)/i;                format_opt = 'C'
-				when /.*\.py/i;                   format_opt = 'PYTHON'
-				when /.*\.rb/i;                   format_opt = 'RUBY'
-				when /.*\.rs/i;                   format_opt = 'RUST'
-				when /.*\.pl/i;                   format_opt = 'PERL'
-				when /.*\.php/i;                  format_opt = 'PHP'
-				when /.*\.js/i;                   format_opt = 'JAVASCRIPT'
-				when /.*\.pl/i;                   format_opt = 'PERL'
-				when /.*\.html/i;                 format_opt = 'HTML'
-				when /.*\.sh/i;                   format_opt = 'BASH'
-				when /.*\.java/i;                 format_opt = 'JAVA_5'
-				when /.*\.tex/i;                  format_opt = 'LATEX'
-				when /makefile/i;                 format_opt = 'MAKE'
+			case (basename)
+
+				when /.*\.(cpp|cc|cxx|hpp|hxx)/i; format = 'C_PLUS_PLUS'
+				when /.*\.(css|less)/i;           format = 'CSS'
+				when /.*\.(c|h)/i;                format = 'C'
+				when /.*\.py/i;                   format = 'PYTHON'
+				when /.*\.rb/i;                   format = 'RUBY'
+				when /.*\.rs/i;                   format = 'RUST'
+				when /.*\.pl/i;                   format = 'PERL'
+				when /.*\.php/i;                  format = 'PHP'
+				when /.*\.js/i;                   format = 'JAVASCRIPT'
+				when /.*\.pl/i;                   format = 'PERL'
+				when /.*\.html/i;                 format = 'HTML'
+				when /.*\.sh/i;                   format = 'BASH'
+				when /.*\.java/i;                 format = 'JAVA_5'
+				when /.*\.tex/i;                  format = 'LATEX'
+				when /makefile/i;                 format = 'MAKE'
 				else
 					warn 'cannot detect file type syntax hightlight disabled'
-					format_opt = 'NONE'
-			end
+					format = 'NONE'
 
-			return PasteBin.send(basename, f.readlines * '', format_opt, expire_opt, visibility_opt)
+			end if format.empty?
+
+			return PasteBin.send(basename, f.readlines * '', format, expire, visibility)
 
 		}
 
