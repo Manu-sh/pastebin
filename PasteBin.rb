@@ -1,7 +1,6 @@
 require 'uri'
 require 'net/http'
 require 'nokogiri'
-# require 'mime/types'
 
 require_relative 'HttpUtils.rb'
 
@@ -17,7 +16,7 @@ module PasteBin
 		@@loaded        = false;
 		@@format_opt    = nil
 		@@expire_opt    = nil
-		@@visibilty_opt = nil	
+		@@visibility_opt = nil	
 	
 		def __parse_opt_from_dom()
 
@@ -76,25 +75,25 @@ module PasteBin
 			return if @@loaded
 
 			# generate the opt file if not exist
-			self.__parse_opt_from_dom() unless File.exist? PASTE_BIN_OPT
+			__parse_opt_from_dom() unless File.exist? PASTE_BIN_OPT
 
 			# load the opt file into memory ($paste_format, $paste_expire_date, $paste_private)
 			load PASTE_BIN_OPT unless @@loaded
 			@@format_opt    = $paste_format.each_key.map {|k| k }
 			@@expire_opt    = $paste_expire_date.each_key.map {|k| k }
-			@@visibilty_opt = $paste_private.each_key.map {|k| k }
+			@@visibility_opt = $paste_private.each_key.map {|k| k }
 			@@loaded        = true
 
 		end
 
 		def format_opt()    __init(); return @@format_opt; end
 		def expire_opt()    __init(); return @@expire_opt; end
-		def visibilty_opt() __init(); return @@visibilty_opt; end
+		def visibility_opt() __init(); return @@visibility_opt; end
 
 		private :__init, :__parse_opt_from_dom;
 	end
 
-	def self.send(title, content, format_opt = 'NONE', expire_opt = '10_MINUTES', visibilty_opt = 'UNLISTED')
+	def self.send(title, content, format_opt = 'NONE', expire_opt = '10_MINUTES', visibility_opt = 'UNLISTED')
 
 		__init()
 
@@ -136,7 +135,7 @@ module PasteBin
 
 				['paste_format',      $paste_format.fetch(format_opt)      ], 
 				['paste_expire_date', $paste_expire_date.fetch(expire_opt) ], 
-				['paste_private',     $paste_private.fetch(visibilty_opt)  ],
+				['paste_private',     $paste_private.fetch(visibility_opt)  ],
 				['paste_name',        title]
 
 			], 'multipart/form-data');
@@ -161,49 +160,34 @@ module PasteBin
 
 	end
 
-	def self.send_file(fpath, expire_opt = '10_MINUTES', visibilty_opt = 'UNLISTED')
+	def self.send_file(fpath, expire_opt = '10_MINUTES', visibility_opt = 'UNLISTED')
 
 		File.open(fpath) {|f|
 
 			format_opt = nil
 
 			case (basename = File.basename(f.path))
-				when /.*\.(cpp|cc|cxx|hpp|hxx)/i
-					format_opt = 'C_PLUS_PLUS'
-				when /.*\.(c|h)/i
-					format_opt = 'C'
-				when /.*\.py/i
-					format_opt = 'PYTHON'
-				when /.*\.rb/i
-					format_opt = 'RUBY'
-				when /.*\.rs/i
-					format_opt = 'RUST'
-				when /.*\.pl/i
-					format_opt = 'PERL'
-				when /.*\.php/i
-					format_opt = 'PHP'
-				when /.*\.js/i
-					format_opt = 'JAVASCRIPT'
-				when /.*\.pl/i
-					format_opt = 'PERL'
-				when /.*\.(css|less)/i
-					format_opt = 'CSS'
-				when /.*\.html/i
-					format_opt = 'HTML'
-				when /.*\.sh/i
-					format_opt = 'BASH'
-				when /.*\.java/i
-					format_opt = 'JAVA_5'
-				when /.*\.tex/i
-					format_opt = 'LATEX'
-				when /makefile/i
-					format_opt = 'MAKE'
+				when /.*\.(cpp|cc|cxx|hpp|hxx)/i; format_opt = 'C_PLUS_PLUS'
+				when /.*\.(css|less)/i;           format_opt = 'CSS'
+				when /.*\.(c|h)/i;                format_opt = 'C'
+				when /.*\.py/i;                   format_opt = 'PYTHON'
+				when /.*\.rb/i;                   format_opt = 'RUBY'
+				when /.*\.rs/i;                   format_opt = 'RUST'
+				when /.*\.pl/i;                   format_opt = 'PERL'
+				when /.*\.php/i;                  format_opt = 'PHP'
+				when /.*\.js/i;                   format_opt = 'JAVASCRIPT'
+				when /.*\.pl/i;                   format_opt = 'PERL'
+				when /.*\.html/i;                 format_opt = 'HTML'
+				when /.*\.sh/i;                   format_opt = 'BASH'
+				when /.*\.java/i;                 format_opt = 'JAVA_5'
+				when /.*\.tex/i;                  format_opt = 'LATEX'
+				when /makefile/i;                 format_opt = 'MAKE'
 				else
 					warn 'cannot detect file type syntax hightlight disabled'
 					format_opt = 'NONE'
 			end
 
-			return PasteBin.send(basename, f.readlines * '', format_opt, expire_opt, visibilty_opt)
+			return PasteBin.send(basename, f.readlines * '', format_opt, expire_opt, visibility_opt)
 
 		}
 
