@@ -195,4 +195,12 @@ module PasteBin
 
 	end
 
+
+        def self.has_captcha(pastebin_snippet_url)
+		response  = HttpUtils::get_response(pastebin_snippet_url)
+		dom = Nokogiri::HTML(response.body)
+		# access to [:name] if dom node not null
+		return dom.at_css('input[name="captcha_solution"]')&.send([], :name) == 'captcha_solution';
+        end
+
 end
