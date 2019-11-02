@@ -21,7 +21,7 @@ prepare() {
 
 build() { :; } 
 check() { :; }
-package_pastebin() {
+package_pastebin-git() {
 	cp -r "${srcdir}/${_pkgname}" "${pkgdir}"
 	#echo 'PATH="${PATH}:/'${pkgdir}'/${_pkgname}/bin"' >> .bashrc
 }
