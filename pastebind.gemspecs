@@ -1,0 +1,14 @@
+Gem::Specification.new do |s|
+	s.name        = 'pastebind'
+	s.version     = '0.0.0'
+	s.date        = '2019-10-03'
+	s.summary     = 'Pastebin Client'
+	s.description = 'unofficial fully featured pastebin client written in ruby'
+	s.authors     = ['Manu-sh']
+	s.email       = 's3gmentationfault@gmail.com'
+	s.files       = ['bin/pastebind', 'bin/HttpUtils.rb', 'bin/PasteBin.rb']
+	s.executables << 'pastebind'
+
+	s.homepage    = 'https://rubygems.org/gems/pastebind'
+	s.license     = 'GPL-3.0'
+end
