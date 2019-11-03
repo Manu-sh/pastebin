@@ -6,9 +6,14 @@ Gem::Specification.new do |s|
 	s.description = 'unofficial fully featured pastebin client written in ruby'
 	s.authors     = ['Manu-sh']
 	s.email       = 's3gmentationfault@gmail.com'
-	s.files       = ['bin/pastebind', 'bin/HttpUtils.rb', 'bin/PasteBin.rb']
-	s.executables << 'pastebind'
-
-	s.homepage    = 'https://rubygems.org/gems/pastebind'
+	s.homepage    = 'https://github.com/Manu-sh/pastebin'
 	s.license     = 'GPL-3.0'
+
+	s.executables << 'pastebind'
+	s.files = %w[
+		bin/pastebind
+		bin/HttpUtils.rb
+		bin/PasteBin.rb
+	]
+
 end
