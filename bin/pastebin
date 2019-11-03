@@ -2,8 +2,8 @@
 
 require 'getoptlong'
 
-require_relative '../lib/HttpUtils.rb'
-require_relative '../lib/PasteBin.rb'
+require_relative '../lib/pastebin/HttpUtils.rb'
+require_relative '../lib/pastebin/PasteBin.rb'
 
 PROG_NAME=File.basename($0, '.rb')
 PasteBin::init()
