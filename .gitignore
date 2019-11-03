@@ -1,2 +1,3 @@
 .vscode/*
 pastebin_opt.rb
+*.gem

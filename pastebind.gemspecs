@@ -10,10 +10,8 @@ Gem::Specification.new do |s|
 	s.license     = 'GPL-3.0'
 
 	s.executables << 'pastebind'
-	s.files = %w[
-		bin/pastebind
-		bin/HttpUtils.rb
-		bin/PasteBin.rb
-	]
+	s.require_paths = ['lib']
+
+	s.files = Dir['bin/*', 'lib/*']
 
 end
