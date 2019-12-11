@@ -1,4 +1,4 @@
-# pastebin
+# pastebin(d)
 ###### send code snippet to pastebin
 
 <a href="https://asciinema.org/a/BHRFvPUWv7rJKiysAZmMlrE2v?autoplay=1&t=00:10">
@@ -8,18 +8,23 @@
 ### Installation
 ```bash
 git clone https://github.com/Manu-sh/pastebin
-gem install nokogiri
+gem build pastebind
+gem install pastebind
 
-cp -r pastebin /opt
 
-# edit you .bashrc and add /opt/pastebin/bin to your $PATH
-PATH="${PATH}:/opt/pastebin/bin"
+# if you get the following warning
+# WARNING:  You don't have /home/user/.gem/ruby/2.6.0/bin in your PATH,
+#	  gem executables will not run.
+
+
+# edit you .bashrc and add /home/user/.gem/ruby/2.6.0/bin to your $PATH
+PATH="${PATH}:/home/user/.gem/ruby/2.6.0/bin"
 
 # then you should be able to type
-pastebin -h
+pastebind -h
 
-user@arch~> pastebin -h
-pastebin usage:
+user@arch~> pastebind -h
+pastebind usage:
 	-h, --help
 		this help
 
@@ -81,7 +86,7 @@ pastebin usage:
 
 Note that you could also read from stdin, maybe define an alias still more convenient
 ```bash
-lsblk|pastebin /dev/stdin
+lsblk|pastebind /dev/stdin
 ```
 
 ### Troubleshooting
