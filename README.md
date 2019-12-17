@@ -3,6 +3,8 @@
 
 #### Attention: after pastebin.com has enabled Cloudflare protection this script has stopped to working, all should be reimplemented using an headless browser like selenium which allow for JS execution
 
+https://selenium.dev/documentation/en/
+
 <a href="https://asciinema.org/a/BHRFvPUWv7rJKiysAZmMlrE2v?autoplay=1&t=00:10">
   <img src="https://asciinema.org/a/BHRFvPUWv7rJKiysAZmMlrE2v.png" width="320px" height="200px" alt="" />
 </a>
